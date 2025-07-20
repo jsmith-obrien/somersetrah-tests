@@ -1,0 +1,115 @@
+// Example usage:
+// NewClientUI.visit()
+// NewClientUI.fillForm({
+//   firstName: 'Josh',
+//   lastName: 'Smith-O’Brien',
+//   email: 'test@example.com',
+//   phone: '555-123-4567',
+//   petName: 'Snuffles',
+//   species: 'Dog',
+//   breed: 'Lab',
+//   sex: 'Male',
+//   spayedNeutered: true,
+//   signature: 'Josh S.',
+//   date: '2025-07-20',
+//   time: '10:30 AM'
+// })
+// NewClientUI.submit()
+// NewClientUI.verify.successBanner()
+
+class NewClientUI {
+  visit() {
+    cy.visit('/new-client')
+  }
+
+  fillForm(data) {
+    cy.get('input[name="firstName"]').type(data.firstName)
+    cy.get('input[name="lastName"]').type(data.lastName)
+    cy.get('input[name="email"]').type(data.email)
+    cy.get('input[name="phone"]').type(data.phone)
+
+    cy.get('input[name="address"]').type(data.address)
+    cy.get('input[name="city"]').type(data.city)
+    cy.get('input[name="state"]').type(data.state)
+    cy.get('input[name="zip"]').type(data.zip)
+    
+    cy.get('input[name="petName"]').type(data.petName)
+    cy.get('input[name="species"]').type(data.species)
+    cy.get('input[name="breed"]').type(data.breed)
+    cy.get('input[name="age"]').type(data.age)
+    cy.get('select[name="sex"]').select(data.sex)
+    if (data.spayedNeutered) cy.get('input[name="spayedNeutered"]').check()
+
+    cy.get('textarea[name="concerns"]').type(data.concerns)
+    cy.get('textarea[name="medications"]').type(data.medications)
+
+    // Signature canvas (simulate a quick line draw)
+cy.get('canvas').then(canvas => {
+  const { x, y } = canvas[0].getBoundingClientRect()
+
+  cy.wrap(canvas)
+    // Left circle
+    .trigger('mousedown', { clientX: x + 20, clientY: y + 60 })
+    .trigger('mousemove', { clientX: x + 20, clientY: y + 50 })
+    .trigger('mousemove', { clientX: x + 30, clientY: y + 40 })
+    .trigger('mousemove', { clientX: x + 40, clientY: y + 50 })
+    .trigger('mousemove', { clientX: x + 40, clientY: y + 60 })
+    .trigger('mousemove', { clientX: x + 30, clientY: y + 70 })
+    .trigger('mousemove', { clientX: x + 20, clientY: y + 60 })
+    .trigger('mouseup')
+
+    // Shaft
+    .trigger('mousedown', { clientX: x + 40, clientY: y + 50 })
+    .trigger('mousemove', { clientX: x + 60, clientY: y + 30 })
+    .trigger('mousemove', { clientX: x + 60, clientY: y + 70 })
+    .trigger('mousemove', { clientX: x + 40, clientY: y + 50 })
+    .trigger('mouseup')
+
+    // Right circle
+    .trigger('mousedown', { clientX: x + 60, clientY: y + 60 })
+    .trigger('mousemove', { clientX: x + 60, clientY: y + 50 })
+    .trigger('mousemove', { clientX: x + 70, clientY: y + 40 })
+    .trigger('mousemove', { clientX: x + 80, clientY: y + 50 })
+    .trigger('mousemove', { clientX: x + 80, clientY: y + 60 })
+    .trigger('mousemove', { clientX: x + 70, clientY: y + 70 })
+    .trigger('mousemove', { clientX: x + 60, clientY: y + 60 })
+    .trigger('mouseup')
+})
+
+    cy.get('input[name="date"]').type(data.date)
+    cy.get('input[name="time"]').type(data.time)
+  }
+
+  submit() {
+    cy.contains('button', 'Submit').click()
+  }
+
+  verify = {
+    successBanner: () => {
+      cy.contains('Thank you').should('be.visible') // adjust as needed
+    }
+  }
+
+  nav = {
+    scheduleAppointment: () => cy.contains('Contact Us'),
+
+    otherServices: {
+      petDentistry: () => cy.contains('.fr-feature-card__title', 'Pet Dentistry'),
+      petRadiology: () => cy.contains('.fr-feature-card__title', 'Pet Radiology'),
+      petPharmacy: () => cy.contains('.fr-feature-card__title', 'In-Hospital Pet Pharmacy'),
+      petOxygen: () => cy.contains('.fr-feature-card__title', 'Pet Oxygen Therapy'),
+      petUltrasound: () => cy.contains('.fr-feature-card__title', 'Pet Ultrasound'),
+      petSurgery: () => cy.contains('.fr-feature-card__title', 'Pet General Surgery')
+    },
+
+    learnMore: {
+      forService: (title) => {
+        return cy.contains('.fr-feature-card__title', title)
+          .parent()
+          .find('.fr-feature-card__cta')
+      }
+    }
+  }
+}
+
+export default new NewClientUI()
