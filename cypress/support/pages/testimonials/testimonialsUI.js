@@ -1,57 +1,48 @@
 // Example usage:
-// UltrasoundUI.visit()
-// UltrasoundUI.verify.hero()
-// UltrasoundUI.verify.otherServices()
-// UltrasoundUI.verify.footer()
-// UltrasoundUI.nav.otherServices.petSurgery().click()
+// TestimonialsUI.visit()
+// TestimonialsUI.verify.hero()
+// TestimonialsUI.verify.quotes()
+// TestimonialsUI.verify.positiveSentiment()
+// TestimonialsUI.nav.otherServices.petSurgery().click()
 
-class UltrasoundUI {
+import Sentiment from 'sentiment'
+
+class TestimonialsUI {
   visit() {
-    cy.visit('/services/pet-ultrasound')
+    cy.visit('/testimonials')
   }
 
   // ======= SMOKE CHECKS =======
-  verify = {
-    header() {
-      cy.get('.fr-intro > .brxe-heading')
-        .should('have.text', 'Pet Ultrasound')
-    },
+verifyHero() {
+  cy.contains('h1', 'Client Testimonials').should('be.visible')
+}
 
-bodyText() {
-  cy.contains('Ultrasound imaging is a non-invasive diagnostic tool').should('exist')
-},
-
-otherServices() {
-  const services = [
-    'Pet Dentistry',
-    'Pet Radiology',
-    'In-Hospital Pet Pharmacy',
-    'Pet Oxygen Therapy',
-    'Pet Ultrasound',
-    'Pet General Surgery'
-  ]
-  services.forEach(service => {
-    cy.contains('.fr-feature-card__title', service).should('exist')
-  })
-},
-
-testimonials() {
+verifyQuotes() {
   cy.get('.fr-testimonial__quote').should('have.length.at.least', 1)
-  cy.get('.swiper-button-next').should('exist')
-},
+}
 
-contactCTA() {
+verifyPositiveSentiment() {
+  cy.get('.fr-testimonial__quote').each($el => {
+    const text = $el.text()
+    const sentiment = new Sentiment()
+    const result = sentiment.analyze(text)
+    expect(result.score, `Quote sentiment too negative:\n"${text}"`)
+      .to.be.greaterThan(-1)
+  })
+}
+
+verifyContactCTA() {
   cy.contains('Ready to schedule?').should('be.visible')
   cy.contains('Contact Us').should('be.visible')
-},
+}
 
-locationBlock() {
+verifyLocationBlock() {
   cy.contains('Princess Anne, MD').should('be.visible')
   cy.contains('11279 Stewart Neck Rd').should('be.visible')
   cy.contains('(410) 651-1044').should('be.visible')
-},
+}
 
-footer() {
+verifyFooter() {
   cy.get('footer').within(() => {
     cy.contains('Somerset Regional Animal Hospital').should('exist')
     cy.contains('Privacy Policy').should('exist')
@@ -60,9 +51,9 @@ footer() {
     cy.contains('somersetrah@gmail.com').should('exist')
     cy.contains('(410) 651-1044').should('exist')
   })
-}}
+}
 
-  // ======= INTERACTIONS =======
+  // ======= NAV SECTIONS =======
   nav = {
     scheduleAppointment: () => cy.contains('Contact Us'),
 
@@ -85,4 +76,4 @@ footer() {
   }
 }
 
-export default new UltrasoundUI()
+export default new TestimonialsUI()

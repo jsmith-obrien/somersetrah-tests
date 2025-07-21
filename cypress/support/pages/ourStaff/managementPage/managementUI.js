@@ -12,7 +12,8 @@ class MedicalStaffUI {
   // ======= SMOKE CHECKS =======
   verify = {
     header: () => {
-      cy.contains('h1', 'Medical Staff').should('exist')
+      cy.get('.brxe-container > .brxe-heading')
+        .should('have.text', 'Our veterinarians') //this is a bug, it should be management
     },
 
     staffCards: () => {

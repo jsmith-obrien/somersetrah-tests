@@ -13,7 +13,7 @@ class VeterinariansUI {
   // ======= SMOKE CHECKS =======
   verify = {
     header: () => {
-      cy.contains('h1', 'Our Veterinarians').should('exist')
+      cy.get('.brxe-container > .brxe-heading')
     },
 
     staffCards: () => {

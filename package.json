@@ -12,6 +12,8 @@
   "type": "commonjs",
   "devDependencies": {
     "cypress": "^14.5.2",
+    "cypress-axe": "^1.6.0",
+    "cypress-real-events": "^1.14.0",
     "sentiment": "^5.0.2"
   }
 }

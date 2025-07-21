@@ -12,15 +12,21 @@ class VeterinaryServicesUI {
 
   // ======= SMOKE CHECKS =======
   verify = {
-    hero: () => {
-      cy.contains('h1', 'Veterinary Services').should('be.visible')
+    header: () => {
+      cy.get('.brxe-container > .brxe-heading')
+        .should('have.text', 'Veterinary services')
     },
 
-    introText: () => {
+    scheduleButton: () => {
+      cy.get('.brxe-div > .brxe-button')
+        .should('have.text', 'Schedule an appointment')
+    },
+
+    verifyIntroText() {
       cy.contains('At Somerset Regional Animal Hospital').should('exist')
     },
 
-    serviceCards: () => {
+    verifyServiceCards() {
       const services = [
         'Pet Wellness Exam',
         'Pet Dentistry',
@@ -35,23 +41,23 @@ class VeterinaryServicesUI {
       })
     },
 
-    testimonials: () => {
+    verifyTestimonials() {
       cy.get('.fr-testimonial__quote').should('have.length.at.least', 1)
       cy.get('.swiper-button-next').should('exist')
     },
 
-    contactCTA: () => {
+    verifyContactCTA() {
       cy.contains('Ready to schedule?').should('be.visible')
       cy.contains('Contact Us').should('be.visible')
     },
 
-    locationBlock: () => {
+    verifyLocationBlock() {
       cy.contains('Princess Anne, MD').should('be.visible')
       cy.contains('11279 Stewart Neck Rd').should('be.visible')
       cy.contains('(410) 651-1044').should('be.visible')
     },
 
-    footer: () => {
+    verifyFooter() {
       cy.get('footer').within(() => {
         cy.contains('Somerset Regional Animal Hospital').should('exist')
         cy.contains('Privacy Policy').should('exist')

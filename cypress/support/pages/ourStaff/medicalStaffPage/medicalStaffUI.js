@@ -12,7 +12,8 @@ class ManagementUI {
   // ======= SMOKE CHECKS =======
   verify = {
     header: () => {
-      cy.contains('h1', 'Management Team').should('exist')
+      cy.get('.brxe-container > .brxe-heading')
+        .should('have.text', 'Our medical staff')
     },
 
     staffCards: () => {

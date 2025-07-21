@@ -13,34 +13,33 @@ class OxygenTherapyUI {
 
   // ======= SMOKE CHECKS =======
   verify = {
-    hero: () => {
-      cy.contains('h1', 'Pet Oxygen Therapy').should('be.visible')
+    header() {
+      cy.get('.fr-intro > .brxe-heading')
+        .should('have.text', 'Pet Oxygen Therapy')
     },
 
-    bodyText: () => {
+    bodyText() {
       cy.contains('Oxygen therapy helps pets in need of respiratory support').should('exist')
     },
 
-    cards: {
-      expansion: () => {
-        const titles = [
-          'Oxygen Cages',
-          'Flow-by Oxygen',
-          'Nasal Cannulas',
-          'Portable Oxygen Therapy'
-        ]
-        titles.forEach(title => {
-          cy.contains('.fr-accordion__title', title).should('exist')
-        })
-      },
-
-      contentVisible: (title) => {
-        cy.contains('.fr-accordion__title', title).click()
-        cy.contains('.fr-accordion__content', title).should('be.visible')
-      }
+    expansionCards() {
+      const titles = [
+        'Oxygen Cages',
+        'Flow-by Oxygen',
+        'Nasal Cannulas',
+        'Portable Oxygen Therapy'
+      ]
+      titles.forEach(title => {
+        cy.contains('.fr-accordion__title', title).should('exist')
+      })
     },
 
-    otherServices: () => {
+    cardContentVisible(title) {
+      cy.contains('.fr-accordion__title', title).click()
+      cy.contains('.fr-accordion__content', title).should('be.visible')
+    },
+
+    otherServices() {
       const services = [
         'Pet Dentistry',
         'Pet Radiology',
@@ -54,23 +53,23 @@ class OxygenTherapyUI {
       })
     },
 
-    testimonials: () => {
+    testimonials() {
       cy.get('.fr-testimonial__quote').should('have.length.at.least', 1)
       cy.get('.swiper-button-next').should('exist')
     },
 
-    contactCTA: () => {
+    contactCTA() {
       cy.contains('Ready to schedule?').should('be.visible')
       cy.contains('Contact Us').should('be.visible')
     },
 
-    locationBlock: () => {
+    locationBlock() {
       cy.contains('Princess Anne, MD').should('be.visible')
       cy.contains('11279 Stewart Neck Rd').should('be.visible')
       cy.contains('(410) 651-1044').should('be.visible')
     },
 
-    footer: () => {
+    footer() {
       cy.get('footer').within(() => {
         cy.contains('Somerset Regional Animal Hospital').should('exist')
         cy.contains('Privacy Policy').should('exist')

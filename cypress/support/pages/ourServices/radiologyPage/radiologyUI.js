@@ -12,8 +12,9 @@ class RadiologyUI {
 
   // ======= SMOKE CHECKS =======
   verify = {
-    hero: () => {
-      cy.contains('h1', 'Pet Radiology').should('be.visible')
+    header() {
+      cy.get('.fr-intro > .brxe-heading')
+        .should('have.text', 'Pet Radiology')
     },
 
     bodyText: () => {

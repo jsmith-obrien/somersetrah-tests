@@ -12,42 +12,42 @@ class WellnessExamUI {
   }
 
   // ======= SMOKE CHECKS =======
-  verify = {
-    hero: () => {
-      cy.contains('h1', 'Pet Wellness Exam').should('be.visible')
+    verify = {
+    header() {
+      cy.get('.fr-intro > .brxe-heading')
+        .should('have.text', 'Pet Wellness Exam')
     },
 
-    bodyText: () => {
-      cy.contains('Our team at Somerset Regional Animal Hospital believes').should('exist')
-    },
+verifyBodyText() {
+  cy.contains('Our team at Somerset Regional Animal Hospital believes').should('exist')
+},
 
-    testimonials: () => {
-      cy.get('.fr-testimonial__quote').should('have.length.at.least', 1)
-      cy.get('.swiper-button-next').should('exist')
-    },
+verifyTestimonials() {
+  cy.get('.fr-testimonial__quote').should('have.length.at.least', 1)
+  cy.get('.swiper-button-next').should('exist')
+},
 
-    contactCTA: () => {
-      cy.contains('Ready to schedule?').should('be.visible')
-      cy.contains('Contact Us').should('be.visible')
-    },
+verifyContactCTA() {
+  cy.contains('Ready to schedule?').should('be.visible')
+  cy.contains('Contact Us').should('be.visible')
+},
 
-    locationBlock: () => {
-      cy.contains('Princess Anne, MD').should('be.visible')
-      cy.contains('11279 Stewart Neck Rd').should('be.visible')
-      cy.contains('(410) 651-1044').should('be.visible')
-    },
+verifyLocationBlock() {
+  cy.contains('Princess Anne, MD').should('be.visible')
+  cy.contains('11279 Stewart Neck Rd').should('be.visible')
+  cy.contains('(410) 651-1044').should('be.visible')
+},
 
-    footer: () => {
-      cy.get('footer').within(() => {
-        cy.contains('Somerset Regional Animal Hospital').should('exist')
-        cy.contains('Privacy Policy').should('exist')
-        cy.contains('©').should('exist')
-        cy.contains('11279 Stewart Neck Rd').should('exist')
-        cy.contains('somersetrah@gmail.com').should('exist')
-        cy.contains('(410) 651-1044').should('exist')
-      })
-    }
-  }
+verifyFooter() {
+  cy.get('footer').within(() => {
+    cy.contains('Somerset Regional Animal Hospital').should('exist')
+    cy.contains('Privacy Policy').should('exist')
+    cy.contains('©').should('exist')
+    cy.contains('11279 Stewart Neck Rd').should('exist')
+    cy.contains('somersetrah@gmail.com').should('exist')
+    cy.contains('(410) 651-1044').should('exist')
+  })
+}}
 
   // ======= INTERACTIONS =======
   nav = {

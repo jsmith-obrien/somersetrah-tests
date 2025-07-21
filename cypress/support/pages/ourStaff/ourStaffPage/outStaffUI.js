@@ -12,7 +12,7 @@ class OurStaffUI {
 
   verify = {
     heroSection: () => {
-      cy.contains('Meet Our Team').should('be.visible')
+      cy.get('h1, h2, h3').contains('Our talented team of pet lovers').should('be.visible')
     },
 
     introText: () => {

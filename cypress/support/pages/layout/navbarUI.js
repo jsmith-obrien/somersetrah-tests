@@ -1,8 +1,8 @@
-// NavBarUI.nav.click.ourStaff()       // goes to /our-staff
-// NavBarUI.nav.click.ourServices()    // goes to /our-services
-// NavBarUI.nav.ourStaff.veterinarians() // still works
+// nav.click.ourStaff()       // goes to /our-staff
+// nav.click.ourServices()    // goes to /our-services
+// nav.ourStaff.veterinarians() // still works
 
-nav = {
+const nav = {
   topLevel: {
     home: () => cy.contains('nav a', 'Home'),
     ourStaff: () => cy.contains('nav a', 'Our Staff'),
@@ -21,26 +21,39 @@ nav = {
   ourStaff: {
     hover: () => cy.contains('Our Staff').trigger('mouseover'),
     veterinarians: () => {
-      NavBarUI.nav.ourStaff.hover()
-      cy.contains('Veterinarians').click()
+      cy.contains('a', 'Veterinarians').click({ force: true })
     },
     management: () => {
-      NavBarUI.nav.ourStaff.hover()
-      cy.contains('Management').click()
+      cy.contains('Management').click({ force: true })
     },
     medicalStaff: () => {
-      NavBarUI.nav.ourStaff.hover()
-      cy.contains('Medical Staff').click()
+      cy.contains('Medical Staff').click({ force: true })
     }
   },
 
   ourServices: {
     hover: () => cy.contains('Our Services').trigger('mouseover'),
     wellnessExam: () => {
-      NavBarUI.nav.ourServices.hover()
-      cy.contains('Pet Wellness Exam').click()
+      cy.contains('Pet Wellness Exam').click({ force: true })
     },
-    // etc...
+    dentistry: () => {
+      cy.contains('Pet Dentistry').click({ force: true })
+    },
+    radiology: () => {
+      cy.contains('Pet Radiology').click({ force: true })
+    },
+    pharmacy: () => {
+      cy.contains('In-Hospital Pet Pharmacy').click({ force: true })
+    },
+    oxygenTherapy: () => {
+      cy.contains('Pet Oxygen Therapy').click({ force: true })
+    },
+    ultrasound: () => {
+      cy.contains('Pet Ultrasound').click({ force: true })
+    },
+    generalSurgery: () => {
+      cy.contains('Pet General Surgery').click({ force: true })
+    }
   }
 }
 
@@ -61,9 +74,9 @@ const verify = {
   },
   ourStaffDropdown: () => {
     nav.ourStaff.hover()
-    ;['Veterinarians', 'Management', 'Medical Staff'].forEach(link => {
-      cy.contains(link).should('be.visible')
-    })
+      ;['Veterinarians', 'Management', 'Medical Staff'].forEach(link => {
+        cy.contains(link).should('be.visible')
+      })
   }
 }
 

@@ -1,0 +1,57 @@
+// Example usage:
+// ContactUI.visit()
+// ContactUI.verify.hero()
+// ContactUI.verify.formFields()
+// ContactUI.verify.footer()
+// ContactUI.nav.services.petDentistry().click()
+
+class ContactUI {
+  visit() {
+    cy.visit('/contact')
+  }
+
+verifyHero() {
+  cy.contains('h1', 'Contact Us').should('be.visible')
+}
+
+verifyFormFields() {
+  const fields = ['Name', 'Email', 'Phone', 'Subject', 'Your Message']
+  fields.forEach(label => {
+    cy.contains('label', label).should('exist')
+  })
+  cy.get('textarea[name="message"]').should('exist')
+}
+
+verifySuccessMessage() {
+  cy.contains('Thanks for contacting us!').should('exist')
+}
+
+verifyFooter() {
+  cy.get('footer').within(() => {
+    cy.contains('Somerset Regional Animal Hospital').should('exist')
+    cy.contains('Privacy Policy').should('exist')
+    cy.contains('©').should('exist')
+    cy.contains('11279 Stewart Neck Rd').should('exist')
+    cy.contains('somersetrah@gmail.com').should('exist')
+    cy.contains('(410) 651-1044').should('exist')
+  })
+}
+
+  nav = {
+    services: {
+      petDentistry: () => cy.contains('Pet Dentistry'),
+      petRadiology: () => cy.contains('Pet Radiology'),
+      petPharmacy: () => cy.contains('In-Hospital Pet Pharmacy'),
+      petOxygen: () => cy.contains('Pet Oxygen Therapy'),
+      petUltrasound: () => cy.contains('Pet Ultrasound'),
+      petSurgery: () => cy.contains('Pet General Surgery')
+    },
+
+    patientsAndContact: {
+      newPatientForm: () => cy.contains('New Patient Form'),
+      contactUs: () => cy.contains('Contact Us')
+    }
+  }
+}
+
+export default new ContactUI()
