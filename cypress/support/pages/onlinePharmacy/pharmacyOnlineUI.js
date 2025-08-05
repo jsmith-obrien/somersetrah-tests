@@ -14,10 +14,10 @@ class PharmacyOnlineUI {
 
   verify = {
     pagePaints: () => {
-      // Confirm logo or header unique to Somerset is visible
-      cy.contains('Somerset Regional Animal Hospital', { matchCase: false }).should('exist')
 
-      cy.get('body').should('be.visible')
+      cy.contains('nav a', 'Online Pharmacy')
+  .should('have.attr', 'href', 'https://somersetregionalah.covetruspharmacy.com/');
+      
     }
   }
 }

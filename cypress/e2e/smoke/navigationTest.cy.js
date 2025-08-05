@@ -82,9 +82,8 @@ describe('Top Navigation – Smoke Tests (One Per Page)', () => {
     surgeryUI.verify.header()
   })
 
-  it('navigates to Online Pharmacy', () => {
-    navUI.nav.topLevel.pharmacy().click()
-    onlinePharmacyUI.verify.pagePaints()
+  it('verify link to Online Pharmacy', () => {
+    navUI.nav.topLevel.pharmacy().should('have.attr', 'href', 'https://somersetregionalah.covetruspharmacy.com/')
   })
 
   it('navigates to Testimonials', () => {

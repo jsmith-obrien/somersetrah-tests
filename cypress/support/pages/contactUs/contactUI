@@ -1,56 +1,76 @@
-// Example usage:
-// ContactUI.visit()
-// ContactUI.verify.hero()
-// ContactUI.verify.formFields()
-// ContactUI.verify.footer()
-// ContactUI.nav.services.petDentistry().click()
-
 class ContactUI {
-  visit() {
-    cy.visit('/contact')
+  url = '/contact'
+
+  sel = {
+    // Header/Footer
+    header: '.fr-header-bravo',
+    footer: '.fr-footer-juliet',
+
+    // Contact info
+    phone: '.fr-footer-juliet a[href^="tel:"]',
+    email: '.fr-footer-juliet a[href^="mailto:"]',
+    address: '.fr-footer-juliet address',
+
+    // Form fields
+    name: 'input[name="name"]',
+    emailField: 'input[name="email"]',
+    phoneField: 'input[name="phone"]',
+    message: 'textarea[name="message"]',
+
+    // Actions
+    submitBtn: 'button[type="submit"], button:contains("Submit")',
+
+    // Page title
+    pageH1: 'h1:contains("Contact")',
   }
 
-verifyHero() {
-  cy.contains('h1', 'Contact Us').should('be.visible')
-}
+  visit() {
+    cy.visit(this.url)
+  }
 
-verifyFormFields() {
-  const fields = ['Name', 'Email', 'Phone', 'Subject', 'Your Message']
-  fields.forEach(label => {
-    cy.contains('label', label).should('exist')
-  })
-  cy.get('textarea[name="message"]').should('exist')
-}
-
-verifySuccessMessage() {
-  cy.contains('Thanks for contacting us!').should('exist')
-}
-
-verifyFooter() {
-  cy.get('footer').within(() => {
-    cy.contains('Somerset Regional Animal Hospital').should('exist')
-    cy.contains('Privacy Policy').should('exist')
-    cy.contains('©').should('exist')
-    cy.contains('11279 Stewart Neck Rd').should('exist')
-    cy.contains('somersetrah@gmail.com').should('exist')
-    cy.contains('(410) 651-1044').should('exist')
-  })
-}
-
-  nav = {
-    services: {
-      petDentistry: () => cy.contains('Pet Dentistry'),
-      petRadiology: () => cy.contains('Pet Radiology'),
-      petPharmacy: () => cy.contains('In-Hospital Pet Pharmacy'),
-      petOxygen: () => cy.contains('Pet Oxygen Therapy'),
-      petUltrasound: () => cy.contains('Pet Ultrasound'),
-      petSurgery: () => cy.contains('Pet General Surgery')
+  verify = {
+    header: () => {
+      const s = this.sel
+      cy.get(s.header).should('be.visible')
+      cy.get(s.header).within(() => {
+        cy.get('img[alt*="Somerset"]').should('exist')
+        cy.contains('a', 'Contact Us').should('exist')
+      })
     },
 
-    patientsAndContact: {
-      newPatientForm: () => cy.contains('New Patient Form'),
-      contactUs: () => cy.contains('Contact Us')
+    footer: () => {
+      const s = this.sel
+      cy.get(s.footer).should('be.visible')
+      cy.get(s.address).should('exist')
+      cy.get(s.phone).should('have.attr', 'href').and('match', /^tel:/)
+      cy.get(s.email).should('have.attr', 'href').and('match', /^mailto:/)
+    },
+
+    fields: () => {
+      const s = this.sel
+      cy.get(s.pageH1).should('exist')
+      ;[s.name, s.emailField, s.phoneField, s.message]
+        .forEach(sel => cy.get(sel).should('exist'))
+      cy.get(s.submitBtn).should('exist')
+    },
+
+    successBanner: (text = 'Thank you') => {
+      cy.contains(text, { matchCase: false }).should('be.visible')
     }
+  }
+
+  fill(data = {}) {
+    const s = this.sel
+    const typeIf = (sel, val) => { if (val !== undefined) cy.get(sel).clear().type(String(val)) }
+
+    typeIf(s.name, data.name)
+    typeIf(s.emailField, data.email)
+    typeIf(s.phoneField, data.phone)
+    typeIf(s.message, data.message)
+  }
+
+  submit() {
+    cy.get(this.sel.submitBtn).click()
   }
 }
 

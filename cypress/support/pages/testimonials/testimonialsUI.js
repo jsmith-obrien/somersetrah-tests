@@ -13,15 +13,17 @@ class TestimonialsUI {
   }
 
   // ======= SMOKE CHECKS =======
-verifyHero() {
-  cy.contains('h1', 'Client Testimonials').should('be.visible')
-}
+  verify = {
+    header() {
+      cy.get('.brxe-container > .brxe-heading')
+        .should('have.text', 'Our Testimonials')
+    },
 
-verifyQuotes() {
+quotes() {
   cy.get('.fr-testimonial__quote').should('have.length.at.least', 1)
-}
+},
 
-verifyPositiveSentiment() {
+positiveSentiment() {
   cy.get('.fr-testimonial__quote').each($el => {
     const text = $el.text()
     const sentiment = new Sentiment()
@@ -29,20 +31,20 @@ verifyPositiveSentiment() {
     expect(result.score, `Quote sentiment too negative:\n"${text}"`)
       .to.be.greaterThan(-1)
   })
-}
+},
 
-verifyContactCTA() {
+contactCTA() {
   cy.contains('Ready to schedule?').should('be.visible')
   cy.contains('Contact Us').should('be.visible')
-}
+},
 
-verifyLocationBlock() {
+locationBlock() {
   cy.contains('Princess Anne, MD').should('be.visible')
   cy.contains('11279 Stewart Neck Rd').should('be.visible')
   cy.contains('(410) 651-1044').should('be.visible')
-}
+},
 
-verifyFooter() {
+footer() {
   cy.get('footer').within(() => {
     cy.contains('Somerset Regional Animal Hospital').should('exist')
     cy.contains('Privacy Policy').should('exist')
@@ -51,7 +53,7 @@ verifyFooter() {
     cy.contains('somersetrah@gmail.com').should('exist')
     cy.contains('(410) 651-1044').should('exist')
   })
-}
+}}
 
   // ======= NAV SECTIONS =======
   nav = {
